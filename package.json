@@ -1,20 +1,22 @@
 {
-  "name": "velocityjs",
-  "description": "Velocity Template Language(VTL) for JavaScript",
-  "version": "2.0.6",
+  "name": "@Gentomi/velocityjsfork",
+  "description": "Velocity Template Language(VTL) for JavaScript [Forked]",
+  "private": false,
+  "version": "2.0.10",
   "license": "MIT",
   "keywords": [
     "velocity template"
   ],
-  "homepage": "http://git.shepherdwind.com/velocity.js/",
+  "homepage": "https://github.com/Gentomi/velocity.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/shepherdwind/velocity.js.git"
+    "url": "git://github.com/Gentomi/velocity.js.git"
   },
   "engines": {
     "node": ">=0.8.0"
   },
-  "main": "src/velocity.js",
+  "main": "bundle/index.js",
+  "types": "bundle/index.d.ts",
   "bin": {
     "velocity": "bin/velocity"
   },
@@ -32,11 +34,12 @@
   },
   "scripts": {
     "test": "mocha test --require should",
-    "prepublishOnly": "PACKAGE_VERSION=$(node -p -e \"require('./package.json').version\") npm run tag",
+    "zzprepublishOnly": "PACKAGE_VERSION=$(node -p -e \"require('./package.json').version\") npm run tag",
     "version": "npm run changelog && git add . && git commit -m 'chore: update history.md' && git push origin",
     "tag": "if [[ $PACKAGE_VERSION != *\"beta\"* ]];then git tag v$PACKAGE_VERSION && git push --tags; fi",
     "changelog": "auto-changelog -p -u",
-    "ci": "nyc mocha --require should"
+    "ci": "nyc mocha --require should",
+    "bundle": "node esbuild.js && cp index.d.ts ./bundle && mv ./bundle/velocity.js ./bundle/index.js"
   },
   "auto-changelog": {
     "output": "History.md",
@@ -49,6 +52,13 @@
     "buildArgs": "--skip fs,path"
   },
   "dependencies": {
-    "debug": "^4.3.3"
-  }
+    "debug": "^4.3.3",
+    "esbuild": "^0.14.38"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "files": [
+    "bundle/*"
+  ]
 }

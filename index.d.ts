@@ -53,7 +53,7 @@ export interface CompileConfig {
   }>;
 }
 
-declare module 'velocityjs' {
-  var velocityjs: Velocity;
-  export = velocityjs
+declare module 'velocityjsfork' {
+  var velocityjsfork: Velocity;
+  export = velocityjsfork
 }
